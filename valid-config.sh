@@ -58,4 +58,4 @@ stringData:
           id: ${ROLE_ID}
           secret: ${SECRET_ID}
         status: {}" > kes-configuration.yaml
-k apply -f kes-configuration.yaml
+kubectl apply -f kes-configuration.yaml
