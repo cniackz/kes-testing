@@ -31,4 +31,4 @@ stringData:
     export MINIO_ROOT_USER=\"WHNXZOGKN5IQIPQD\"
     export MINIO_ROOT_PASSWORD=\"4IJJVSFGVCJV4X2HGRK1K04KCLRIWT1Q\"
     export MINIO_STORAGE_CLASS_STANDARD=\"EC:2\"" > kes-env.yaml
-k apply -f kes-env.yaml
+kubectl apply -f kes-env.yaml
