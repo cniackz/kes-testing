@@ -70,4 +70,4 @@ spec:
   requestAutoCert: true
   users:
   - name: kes-tenant-user-0" > kes-tenant.yaml
-k apply -f kes-tenant.yaml
+kubectl apply -f kes-tenant.yaml
