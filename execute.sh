@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# To load the needed functions
+source ~/bash-config/common.sh
+
 echo " "
 echo " "
 echo " "
