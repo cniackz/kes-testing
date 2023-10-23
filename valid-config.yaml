@@ -1,0 +1,29 @@
+version: v1
+address: 0.0.0.0:7373
+admin:
+  identity: ${MINIO_KES_IDENTITY}
+tls:
+  key: /tmp/kes/server.key
+  cert: /tmp/kes/server.crt
+api:
+  /v1/ready:
+    skip_auth: false
+    timeout:   15s
+cache:
+  expiry:
+    any: 5m0s
+    unused: 20s
+    offline: 0s
+log:
+  error: on
+  audit: off
+keys:
+  - name: myminio-key
+keystore:
+  vault:
+    endpoint: http://vault.default.svc.cluster.local:8200
+    prefix: my-minio
+    approle:
+      id: 940210bb-e597-d2bf-7d56-ee6e10af219b
+      secret: c79776f5-3309-48a9-22da-4d9349160b82
+    status: {}
