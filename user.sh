@@ -31,4 +31,4 @@ type: Opaque
 data:
   CONSOLE_ACCESS_KEY: Y29uc29sZQ==
   CONSOLE_SECRET_KEY: Y29uc29sZTEyMw==" > kes-console.yaml
-k apply -f kes-console.yaml
+kubectl apply -f kes-console.yaml
