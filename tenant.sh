@@ -18,7 +18,7 @@ spec:
   exposeServices:
     console: true
     minio: true
-  image: minio/minio:RELEASE.2022-11-26T22-43-32Z
+  image: minio/minio:RELEASE.2023-10-16T04-13-43Z
   imagePullPolicy: IfNotPresent
   imagePullSecret: {}
   kes:
