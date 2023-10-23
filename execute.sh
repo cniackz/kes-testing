@@ -1,4 +1,4 @@
-#!/bin/shs
+#!/bin/sh
 
 echo " "
 echo " "
