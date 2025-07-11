@@ -11,8 +11,8 @@ echo " "
 echo "Have a cluster with Operator and Vault installed"
 echo " "
 echo "################################################"
-createcluster nodeport
-installoperator nodeport
+createcluster
+install_operator_5_0_15
 kubectl apply -f https://raw.githubusercontent.com/cniackz/kes-testing/main/deployment.yaml
 kubectl wait --namespace default \
 	--for=condition=ready pod \
