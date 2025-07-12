@@ -86,10 +86,31 @@ kubectl exec $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}')
 # Expected: Success! Enabled the kv secrets engine at: kv/
 kubectl exec $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}') -- sh -c 'VAULT_TOKEN='$VAULT_ROOT_TOKEN' VAULT_ADDR="http://127.0.0.1:8200" vault secrets enable kv'
 
-kubectl cp ~/operator/examples/vault/kes-policy.hcl $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}'):/kes-policy.hcl
 
+
+#### Comento esto porque alguna vez funciono, pero no quiero depender de esto ~/operator/examples/vault/kes-policy.hcl
+#### Y queremos una policy que funcione en el 2025
+# kubectl cp ~/operator/examples/vault/kes-policy.hcl $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}'):/kes-policy.hcl
 # Expected: Success! Uploaded policy: kes-policy
-kubectl exec $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}') -- sh -c 'VAULT_TOKEN='$VAULT_ROOT_TOKEN' VAULT_ADDR="http://127.0.0.1:8200" vault policy write kes-policy /kes-policy.hcl'
+# kubectl exec $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}') -- sh -c 'VAULT_TOKEN='$VAULT_ROOT_TOKEN' VAULT_ADDR="http://127.0.0.1:8200" vault policy write kes-policy /kes-policy.hcl'
+
+
+# Crear kes-policy.hcl con permisos completos
+cat <<EOF > kes-policy.hcl
+path "kv/*" {
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+EOF
+
+# Subir la policy al pod Vault
+kubectl cp kes-policy.hcl $(kubectl get pods -l app=vault | grep -v NAME | awk '{print $1}'):/kes-policy.hcl
+
+# Aplicar la policy dentro de Vault
+kubectl exec $(kubectl get pods -l app=vault | grep -v NAME | awk '{print $1}') -- \
+  sh -c 'VAULT_TOKEN='$VAULT_ROOT_TOKEN' VAULT_ADDR="http://127.0.0.1:8200" vault policy write kes-policy /kes-policy.hcl'
+
+
+
 
 # Success! Data written to: auth/approle/role/kes-role
 kubectl exec $(kubectl get pods -l app=vault  | grep -v NAME | awk '{print $1}') -- sh -c 'VAULT_TOKEN='$VAULT_ROOT_TOKEN' VAULT_ADDR="http://127.0.0.1:8200" vault write auth/approle/role/kes-role token_num_uses=0 secret_id_num_uses=0 period=5m policies=kes-policy'
